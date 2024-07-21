@@ -1,7 +1,14 @@
 import UIKit
 import SnapKit
 
+protocol WelcomeViewDelegate: AnyObject {
+    func loginButtonTapped()
+    func registerButtonTapped()
+}
+
 class WelcomeView: UIView {
+
+    weak var delegate: WelcomeViewDelegate?
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -23,7 +30,7 @@ class WelcomeView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Discover Your\n Favorites Podcast here"
+        label.text = "Discover Your\nFavorites Podcast here"
         label.font = UIFont.boldSystemFont(ofSize: 30)
         label.textColor = .systemBlue
         label.textAlignment = .center
@@ -81,6 +88,11 @@ class WelcomeView: UIView {
         contentView.addSubview(loginButton)
         contentView.addSubview(registerButton)
         
+        setupConstraints()
+        setupActions()
+    }
+    
+    private func setupConstraints() {
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -120,23 +132,20 @@ class WelcomeView: UIView {
             make.trailing.equalToSuperview().inset(20)
             make.height.equalTo(50)
         }
-        
+    }
+    
+    private func setupActions() {
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
     }
     
     @objc private func loginButtonTapped() {
-        print("Login button in WelcomeView tapped") // Debugging print
-        NotificationCenter.default.post(name: .handleLoginButtonTap, object: nil)
+        print("Login button tapped in WelcomeView")
+        delegate?.loginButtonTapped()
     }
     
     @objc private func registerButtonTapped() {
-        print("Register button in WelcomeView tapped") // Debugging print
-        NotificationCenter.default.post(name: .handleRegisterButtonTap, object: nil)
+        print("Register button tapped in WelcomeView")
+        delegate?.registerButtonTapped()
     }
-}
-
-extension Notification.Name {
-    static let handleLoginButtonTap = Notification.Name("handleLoginButtonTap")
-    static let handleRegisterButtonTap = Notification.Name("handleRegisterButtonTap")
 }
