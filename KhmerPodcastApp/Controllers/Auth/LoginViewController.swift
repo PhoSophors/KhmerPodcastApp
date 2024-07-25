@@ -12,16 +12,16 @@ class LoginViewController: UIViewController {
         setupConstraints()
 
 //        // Check if user is already logged in
-//        if AuthManager.shared.isLoggedIn {
-//            navigateToMainScreen()
-//        }
+        if AuthManager.shared.isLoggedIn {
+            navigateToMainScreen()
+        }
 
         // Add targets for buttons and labels
         loginView.loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
 
-        // Observe label tap notifications
-//        NotificationCenter.default.addObserver(self, selector: #selector(handleForgetPasswordLabelTap), name: .forgetPasswordLabelTapped, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(handleRegisterLabelTap), name: .registerLabelTapped, object: nil)
+//         Observe label tap notifications
+        NotificationCenter.default.addObserver(self, selector: #selector(handleForgetPasswordLabelTap), name: .forgetPasswordLabelTapped, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleRegisterLabelTap), name: .registerLabelTapped, object: nil)
 
         // Observe keyboard notifications
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -48,36 +48,36 @@ class LoginViewController: UIViewController {
             return
         }
 
-//        AuthManager.shared.login(email: email, password: password) { [weak self] result in
-//            guard let self = self else { return }
-//            DispatchQueue.main.async {
-//                switch result {
-//                case .success:
-//                    self.navigateToMainScreen()
-//                case .failure(let error):
-//                    var errorMessage = "Login failed: "
-//                    switch error {
-//                    case LoginError.emailNotFound:
-//                        errorMessage += "Email not found. Please check your email."
-//                    case LoginError.incorrectPassword:
-//                        errorMessage += "Incorrect password. Please try again."
-//                    case let LoginError.invalidCredentials(message):
-//                        errorMessage += message
-//                    default:
-//                        errorMessage += "An unexpected error occurred. Please try again later."
-//                    }
-//                    self.showErrorMessage(message: errorMessage)
-//                }
-//            }
-//        }
+        AuthManager.shared.login(email: email, password: password) { [weak self] result in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                switch result {
+                case .success:
+                    self.navigateToMainScreen()
+                case .failure(let error):
+                    var errorMessage = "Login failed: "
+                    switch error {
+                    case LoginError.emailNotFound:
+                        errorMessage += "Email not found. Please check your email."
+                    case LoginError.incorrectPassword:
+                        errorMessage += "Incorrect password. Please try again."
+                    case let LoginError.invalidCredentials(message):
+                        errorMessage += message
+                    default:
+                        errorMessage += "An unexpected error occurred. Please try again later."
+                    }
+                    self.showErrorMessage(message: errorMessage)
+                }
+            }
+        }
     }
 
 
 
     // Navigate to Main Screen on successful login
     private func navigateToMainScreen() {
-//        let mainViewController = MainViewController()
-//        navigationController?.setViewControllers([mainViewController], animated: true)
+        let mainViewController = MainViewController()
+        navigationController?.setViewControllers([mainViewController], animated: true)
     }
 
     // Show error message function
@@ -88,17 +88,17 @@ class LoginViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
 
-//    // Handle Forget Password Label Tap
-//    @objc private func handleForgetPasswordLabelTap() {
+    // Handle Forget Password Label Tap
+    @objc private func handleForgetPasswordLabelTap() {
 //        let forgetPasswordVC = ForgetPasswordViewController()
 //        navigationController?.pushViewController(forgetPasswordVC, animated: true)
-//    }
-//
-//    // Handle Register Label Tap
-//    @objc private func handleRegisterLabelTap() {
-//        let registerVC = RegisterViewController()
-//        navigationController?.pushViewController(registerVC, animated: true)
-//    }
+    }
+
+    // Handle Register Label Tap
+    @objc private func handleRegisterLabelTap() {
+        let registerVC = RegisterViewController()
+        navigationController?.pushViewController(registerVC, animated: true)
+    }
 
     // Keyboard notification handlers
     @objc private func keyboardWillShow(notification: NSNotification) {

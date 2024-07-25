@@ -12,6 +12,7 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Register Page"
+        view.backgroundColor = .white
 
         // Do any additional setup after loading the view.
     }
